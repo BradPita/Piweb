@@ -22,6 +22,7 @@ Unlike cloud-only chatbots, PIweb runs **locally on your hardware**, giving you 
 - Any Linux ARM64/x86 device
 - Windows desktops (fully tested)
 - macOS / iOS — not yet tested, community feedback welcome
+- Synology NAS (Docker) Deployment
 
 ---
 
@@ -246,6 +247,40 @@ npm run daemon
 ```
 
 On Windows, you can also run `start.cmd` or `start.ps1` directly.
+
+### Synology NAS (Docker) Deployment
+
+You can easily deploy PIweb on a Synology NAS to run 24/7 using the Container Manager.
+
+1. Prepare Files: Download the repository and extract it to a folder on your NAS (e.g., /volume1/docker/piweb). Ensure you have copied and configured your piweb.config.json.
+2. Set Permissions: In File Station, right-click the piweb folder -> Properties -> Permission. Grant Read & Write access to Everyone (or the specific Docker execution user). Crucial: Tick the box to "Apply to this folder, sub-folders and files" to prevent database write errors.
+3. Create Project: Open Container Manager -> Project -> Create.
+
+Configure Compose: Set the Path to your piweb folder, select "Create docker-compose.yml", and paste the following configuration:
+```
+version: '3.8'
+services:
+  piweb:
+    image: node:20-slim
+    container_name: piweb
+    working_dir: /app
+    volumes:
+      # Update the path below if your volume is different
+      - /volume1/docker/piweb:/app
+    ports:
+      # Format: "HostPort:ContainerPort". Change left side if 3000 is occupied.
+      - "3000:3000"
+    environment:
+      # Required polyfill for Web Crypto API compatibility
+      - NODE_OPTIONS="--experimental-global-webcrypto"
+    command: >
+      /bin/sh -c "npm pkg delete scripts.prepare && 
+                  npm install && 
+                  node dist/index.js"
+    restart: always
+    tty: true
+```
+5.Build and Run: Proceed through the wizard to build the project. The initial startup will take a few minutes to download dependencies via npm install. Once the container log shows the server is running, access it via `http://<nas-ip>:3000`
 
 ### Phone / Tablet Access
 
