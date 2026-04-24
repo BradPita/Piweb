@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  piweb:
+    # 換成 Node 20，因為 Node 20 預設支援更多的 Web Crypto API
+    image: node:20-slim
+    container_name: piweb
+    working_dir: /app
+    volumes:
+      - /volume1/docker/piweb:/app
+    ports:
+      - "3300:3000"
+    environment:
+      # 有些專案需要這個環境變數才不會報錯
+      - NODE_OPTIONS="--experimental-global-webcrypto"
+    command: >
+      /bin/sh -c "npm pkg delete scripts.prepare && 
+                  npm config set registry https://registry.npmmirror.com && 
+                  npm install && 
+                  node dist/index.js"
+    restart: always
+    tty: true
