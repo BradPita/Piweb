@@ -255,8 +255,8 @@ You can easily deploy PIweb on a Synology NAS to run 24/7 using the Container Ma
 1. Prepare Files: Download the repository and extract it to a folder on your NAS (e.g., /volume1/docker/piweb). Ensure you have copied and configured your piweb.config.json.
 2. Set Permissions: In File Station, right-click the piweb folder -> Properties -> Permission. Grant Read & Write access to Everyone (or the specific Docker execution user). Crucial: Tick the box to "Apply to this folder, sub-folders and files" to prevent database write errors.
 3. Create Project: Open Container Manager -> Project -> Create.
+4. Configure Compose: Set the Path to your piweb folder, select "Create docker-compose.yml", and paste the following configuration:
 
-Configure Compose: Set the Path to your piweb folder, select "Create docker-compose.yml", and paste the following configuration:
 ```
 version: '3.8'
 services:
@@ -280,7 +280,7 @@ services:
     restart: always
     tty: true
 ```
-5.Build and Run: Proceed through the wizard to build the project. The initial startup will take a few minutes to download dependencies via npm install. Once the container log shows the server is running, access it via `http://<nas-ip>:3000`
+5. Build and Run: Proceed through the wizard to build the project. The initial startup will take a few minutes to download dependencies via npm install. Once the container log shows the server is running, access it via `http://<nas-ip>:3000`
 
 ### Phone / Tablet Access
 
