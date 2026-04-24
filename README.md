@@ -318,6 +318,7 @@ Full configuration guide: [docs/configuration.md](docs/configuration.md)
 | **Windows 10/11** | ✅ Fully tested | Primary development platform |
 | **Linux x86_64** | ✅ Supported | Server / desktop deployments |
 | **Linux ARM64 (Raspberry Pi)** | ✅ Target platform | Pi 4 / Pi 5 recommended |
+| **Synology DSM 7.2.1** | ✅ Supported | Server / desktop deployments |
 | **macOS** | ⚠️ Untested | Should work; feedback welcome |
 | **iOS (Safari)** | ⚠️ Untested | Web UI should work; native not planned |
 
